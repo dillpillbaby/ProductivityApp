@@ -1,10 +1,10 @@
 <script>
-   import Navbar from "./components/Navbar.svelte";
+   import Navbar from "../components/Navbar.svelte";
 </script>
 
 <Navbar>
 </Navbar>
-
+<span>Reminders</span>
 <!-- <div id="topBar" style="display: flex;">
     <img
         src="..\logo.png"

@@ -1,10 +1,41 @@
 <script>
-   import Navbar from "./components/Navbar.svelte";
+    import Navbar from "../components/Navbar.svelte";
+    import { Card } from "flowbite-svelte";
 </script>
-
-<Navbar>
-</Navbar>
-
+<Navbar></Navbar>
+<div class="flex w-full h-full justify-center mt-4 flex-wrap mx-72">
+    
+    <Card class="mx-4 max-w-xs">
+        <h5
+            class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+        >
+            Title
+        </h5>
+        <p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
+            body
+        </p>
+    </Card>
+    <Card class="mx-4 max-w-xs">
+        <h5
+            class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+        >
+            Title
+        </h5>
+        <p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
+            body
+        </p>
+    </Card>
+    <Card class="mx-4 max-w-xs">
+        <h5
+            class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+        >
+            Title
+        </h5>
+        <p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
+            body
+        </p>
+    </Card>
+</div>
 <!-- <div id="topBar" style="display: flex;">
     <img
         src="..\logo.png"
@@ -44,6 +75,6 @@
     .footer {
         text-align: center;
         font-size: 1em;
-        padding-top: 150px;
+        margin-top: 150px;
     }
 </style>
