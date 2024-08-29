@@ -1,60 +1,43 @@
 package main
 
 import (
-	"database/sql"
-	"fmt"
+	"github.com/gin-gonic/gin"
 
-	_ "github.com/lib/pq"
+	"productivityapp/models"
+	"productivityapp/controllers"
 )
 
-const (
-	host     = "localhost"
-	port     = 5432
-	user     = "postgres"
-	password = "1234ASDFjkl;"
-	dbname   = "ProductivityApp"
-)
+// const (
+// 	host     = "localhost"
+// 	port     = 5432
+// 	user     = "postgres"
+// 	password = "1234ASDFjkl;"
+// 	dbname   = "ProductivityApp"
+// )
+
+// type test struct {
+// 	ID   uint
+// 	Name string
+// }
 
 func main() {
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
-		"password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname)
-	test_db, err := sql.Open("postgres", psqlInfo)
-	check_db_error(err)
+	r := gin.Default()
 
-	
-	err = test_db.Ping()
-	check_db_error(err)
+	models.ConnectDatabase()
+	r.GET("/contacts", controllers.FindContacts)
+	r.POST("contacts", controllers.CreateContact)
 
-	create_test_entry("Dylan", test_db)
-	create_test_entry("Eli", test_db)
-	create_test_entry("Alex", test_db)
-
-	getAll := `SELECT name from test`
-	items, e := test_db.Query(getAll)
-	check_db_error(e)
-	defer items.Close()
-	for items.Next() {
-		var name string
-		if err := items.Scan(&name); err != nil {
-				panic(err)
-		}
-		fmt.Println(name)
-	}
-	if err := items.Err(); err != nil {
-		panic(err)
-	}
-	check_db_error(e)
-	defer test_db.Close()
-}
-
-func check_db_error(err error) {
-    if err != nil {
-        panic(err)
-    }
-}
-func create_test_entry(name string, db *sql.DB){
-	insrtTest := `INSERT INTO test("name") values('dylan')`
-	_, e := db.Exec(insrtTest)
-	check_db_error(e)
+	r.Run()
+	// dsn := "host=localhost user=postgres password=1234ASDFjkl; dbname=ProductivityApp port=5432"
+	// db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
+	// 	NamingStrategy: schema.NamingStrategy{
+	// 		SingularTable: true,
+	// 	},
+	// })
+	// if err != nil {
+	// 	panic("failed to connect database")
+	// }
+	// readTest := &test{}
+	// db.Unscoped().First(&readTest)
+	// fmt.Println("ID: %d, Name: %s\n", readTest.ID, readTest.Name)
 }
