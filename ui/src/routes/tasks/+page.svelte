@@ -1,10 +1,57 @@
-<script>
+<script lang=ts>
     import Navbar from "../components/Navbar.svelte";
     import { Card } from "flowbite-svelte";
-</script>
-<Navbar></Navbar>
-<div class="flex w-full h-full justify-center mt-4 flex-wrap mx-72">
     
+    let description = '';
+    let mood = 0;
+
+    async function handleSubmit(event: Event) {
+        // Prevent the default form submission behavior
+        event.preventDefault();
+
+        // Create the object to send to the backend
+        const journalEntry = {
+            description,
+            'MoodID': mood
+        };
+
+        try {
+            // Make a POST request to your endpoint
+            const response = await fetch('http://localhost:8080/journalentries', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(journalEntry),
+            });
+            console.log(JSON.stringify(journalEntry))
+            
+            if (!response.ok) {
+                throw new Error('Failed to create journal entry');
+            }
+            
+            // Handle the response (e.g., clear the form, show a success message)
+            const result = await response.json();
+            console.log('Journal entry created:', result);
+
+            // Reset form fields if needed
+            description = '';
+            mood = 0;
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+</script>
+
+<Navbar></Navbar>
+<form class="flex flex-col" on:submit={handleSubmit}>
+    <input type="text" class="w-48" placeholder="Description" bind:value="{description}" />
+    <input type="number" class="w-48" placeholder="Mood" bind:value="{mood}" />
+    <button type="submit" class="w-48 h-12 border"
+        ><span>Create Journal Entry</span></button
+    >
+</form>
+<div class="flex w-full h-full justify-center mt-4 flex-wrap mx-72">
     <Card class="mx-4 max-w-xs">
         <h5
             class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"

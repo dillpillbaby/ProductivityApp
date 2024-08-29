@@ -15,7 +15,8 @@ func ConnectDatabase() {
 		panic("Failed to connect to database!")
 	}
 
-	err = database.AutoMigrate(&Contact{})
+	// Initialize all models
+	err = database.AutoMigrate(&Contact{}, &Mood{}, &JournalEntry{}, &Color{})
 	if err != nil {
 		return
 	}
